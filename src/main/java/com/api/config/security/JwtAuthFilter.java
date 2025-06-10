@@ -1,8 +1,7 @@
-package com.api.config;
+package com.api.config.security;
 
 import com.api.model.entities.UsuariosEntity;
 import com.api.repositories.IUsuariosRepository;
-import com.api.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

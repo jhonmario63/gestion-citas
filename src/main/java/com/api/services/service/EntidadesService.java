@@ -37,6 +37,8 @@ public class EntidadesService implements IEntidadesService {
             if (save.getNitEntidad() == null) {
                 throw new CustomException(MensajesEnum.ERROR_REGISTRO_ENTIDAD.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_REGISTRO_ENTIDAD.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,6 +62,8 @@ public class EntidadesService implements IEntidadesService {
             entidadesEntity.setTipo(entidadRequestDto.getTipo());
             entidadesEntity.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
             iEntidadesRepository.save(entidadesEntity);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_ACTUALIZAR_USUARIO.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);

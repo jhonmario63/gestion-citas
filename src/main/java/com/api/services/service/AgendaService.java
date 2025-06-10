@@ -42,6 +42,8 @@ public class AgendaService implements IAgendaService {
             agendaEntity.setUsuario(iUsuariosRepository.getReferenceById(idUsuario));
             agendaEntity.setEntidad(iEntidadesRepository.getReferenceById(idEntidad));
             iAgendaRepository.save(agendaEntity);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_REGISTRO_AGENDA.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);

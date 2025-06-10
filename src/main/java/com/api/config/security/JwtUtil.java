@@ -1,4 +1,4 @@
-package com.api.utils;
+package com.api.config.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

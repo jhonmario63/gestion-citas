@@ -1,5 +1,6 @@
 package com.api.services.service;
 
+import com.api.config.security.JwtUtil;
 import com.api.dto.request.LoginRequestDto;
 import com.api.dto.request.UsuarioRequestDto;
 import com.api.dto.response.UsuarioResponseDto;
@@ -8,7 +9,6 @@ import com.api.model.entities.UsuariosEntity;
 import com.api.model.enums.TipoUsuarioEnum;
 import com.api.repositories.IUsuariosRepository;
 import com.api.services.interfaces.IUsuariosService;
-import com.api.utils.JwtUtil;
 import com.api.utils.MensajesEnum;
 import com.api.utils.exceptions.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -69,9 +69,11 @@ public class UsuariosService implements IUsuariosService {
             usuariosEntity.setEmail(usuarioRequestDto.getEmail());
             usuariosEntity.setTelefono(usuarioRequestDto.getTelefono());
             iUsuariosRepository.save(usuariosEntity);
-        } catch (Exception e) {
-            log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
-            throw new CustomException(MensajesEnum.ERROR_ACTUALIZAR_USUARIO.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (CustomException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error(MensajesEnum.ERROR_SERVIDOR.getMsg() + ex.getMessage(), this.getClass().getName());
+            throw new CustomException(MensajesEnum.ERROR_SERVIDOR.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -87,9 +89,12 @@ public class UsuariosService implements IUsuariosService {
             UsuarioResponseDto usuarioResponseDto = usuarioMapper.toDto(usuariosEntity);
             usuarioResponseDto.setToken(token);
             return usuarioResponseDto;
+        } catch (CustomException ex) {
+            throw ex;
         } catch (Exception ex) {
             log.error(MensajesEnum.ERROR_SERVIDOR.getMsg() + ex.getMessage(), this.getClass().getName());
-            throw new CustomException(MensajesEnum.ERROR_LOGIN.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomException(MensajesEnum.ERROR_SERVIDOR.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

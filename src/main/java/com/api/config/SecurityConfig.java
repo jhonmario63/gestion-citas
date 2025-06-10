@@ -1,5 +1,6 @@
 package com.api.config;
 
+import com.api.config.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,10 +31,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/usuario/login",
-                                "/usuario/registrar-usuario",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/usuario/login"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

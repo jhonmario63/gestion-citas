@@ -44,6 +44,8 @@ public class CitasService implements ICitasService {
             if (save.getIdCita() == null) {
                 throw new CustomException(MensajesEnum.ERROR_REGISTRO_ENTIDAD.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_REGISTRO_ENTIDAD.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,6 +68,8 @@ public class CitasService implements ICitasService {
                             .agenda(agendaMapper.toDto(cita.getAgenda()))
                             .build())
                     .collect(Collectors.toList());
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception ex) {
             log.error(MensajesEnum.ERROR_SERVIDOR + ex.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_REGISTRO_ENTIDAD.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
