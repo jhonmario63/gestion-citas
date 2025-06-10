@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class EntidadRequestDto {
     private Long idEntidad;
+    private String nitEntidad;
     private String nombre;
     private String direccion;
     private String telefono;

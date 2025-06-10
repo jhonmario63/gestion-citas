@@ -1,5 +1,6 @@
-package com.api.model;
+package com.api.model.entities;
 
+import com.api.model.entities.AgendaEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,8 +17,7 @@ public class CitasEntity {
     @ManyToOne
     @JoinColumn(name = "agenda_id")
     private AgendaEntity agenda;
-
     private Timestamp fechaHora;
     private String estado;
-
+    private Timestamp fechaRegistro;
 }

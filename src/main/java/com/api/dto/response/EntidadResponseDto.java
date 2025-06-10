@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @Builder
 public class EntidadResponseDto {
     private Long idEntidad;
+    private String nitEntidad;
     private String nombre;
     private String direccion;
     private String telefono;

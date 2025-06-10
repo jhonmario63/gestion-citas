@@ -1,11 +1,11 @@
 spring:
   application:
-    name: api
+    name: gestion-citas
   datasource:
     #    driver-class-name: org.postgresql.Driver
     #    url: jdbc:postgresql://localhost:5432/teams
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/api_db
+    url: jdbc:mysql://localhost:3306/gestion_citas
     username: root
     password:
   jpa:
@@ -26,3 +26,4 @@ spring:
         enabled: true
 server:
   port: 8080
+  context-path: /gestion-citas

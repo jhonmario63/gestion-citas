@@ -5,5 +5,7 @@ import com.api.dto.response.EntidadResponseDto;
 import com.api.utils.exceptions.CustomException;
 
 public interface IEntidadesService {
-    EntidadResponseDto registrarEntidad(EntidadRequestDto entidadRequestDto) throws CustomException;
+    void registrarEntidad(EntidadRequestDto entidadRequestDto) throws CustomException;
+
+    void actualizarEntidad(EntidadRequestDto entidadRequestDto) throws CustomException;
 }

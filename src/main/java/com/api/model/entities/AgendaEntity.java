@@ -1,4 +1,4 @@
-package com.api.model;
+package com.api.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,6 +27,7 @@ public class AgendaEntity {
 
     @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
     private List<CitasEntity> citas;
+    private Timestamp fechaRegistro;
 
 
 }

@@ -1,6 +1,5 @@
 package com.api.utils.exceptions;
 
-import com.api.utils.MensajesEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -14,8 +13,8 @@ public class CustomException extends RuntimeException {
         super(message);
     }
 
-    public CustomException(MensajesEnum message, HttpStatus status) {
-        super(String.valueOf(message));
+    public CustomException(String message, HttpStatus status) {
+        super(message);
         this.status = status;
     }
 

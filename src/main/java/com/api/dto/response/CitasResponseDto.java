@@ -1,7 +1,6 @@
-package com.api.dto.request;
+package com.api.dto.response;
 
 
-import com.api.dto.response.AgendaResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,7 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 @Builder
-public class CitasRequestDto implements Serializable {
+public class CitasResponseDto implements Serializable {
     private Long idCita;
     private AgendaResponseDto agenda;
     private Timestamp fechaHora;
