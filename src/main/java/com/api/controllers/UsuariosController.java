@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/usuario")
@@ -41,5 +43,6 @@ public class UsuariosController extends BaseController {
         this.iUsuariosService.actualizarUsuario(usuarioRequestDto);
         return createSuccessResponse("Actualización exitosa.");
     }
+
 
 }

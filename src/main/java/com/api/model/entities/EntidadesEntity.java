@@ -9,21 +9,34 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "entidades")
 public class EntidadesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_entidad")
     private Long idEntidad;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "nit_entidad", nullable = false, unique = true)
     private String nitEntidad;
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "direccion")
     private String direccion;
+
+    @Column(name = "telefono")
     private String telefono;
+
+    @Column(name = "tipo")
     private String tipo;
 
-    @OneToMany(mappedBy = "entidad", cascade = CascadeType.ALL)
-    private List<AgendaEntity> agendas;
+    @Column(name = "fecha_registro")
     private Timestamp fechaRegistro;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuariosEntity usuario;
 
 }

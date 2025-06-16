@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,6 +35,9 @@ public class UsuariosService implements IUsuariosService {
     public void registrarUsuario(UsuarioRequestDto usuarioRequestDto) throws CustomException {
         if (iUsuariosRepository.existsByEmail(usuarioRequestDto.getEmail())) {
             throw new CustomException(MensajesEnum.USUARIO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
+        }
+        if (iUsuariosRepository.existsByNumDocumento(usuarioRequestDto.getNumDocumento())) {
+            throw new CustomException(MensajesEnum.DOCUMENTO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
         }
         try {
             UsuariosEntity usuariosEntity = new UsuariosEntity();

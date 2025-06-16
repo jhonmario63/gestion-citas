@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MensajesEnum {
     USUARIO_EXISTENTE("El correo ya está registrado."),
+    DOCUMENTO_EXISTENTE("El documento ya está registrado."),
     USUARIO_INCORRECTO("Usuario y contraseña incorrecto."),
     ERROR_LOGIN("Usuario y contraseña incorrecto."),
     USUARIO_NO_EXISTENTE("Usuario no encontrado."),
@@ -18,7 +19,9 @@ public enum MensajesEnum {
     ERROR_REGISTRO_ENTIDAD("Error al registrar la entidad."),
     ERROR_REGISTRO_AGENDA("Error al registrar la agenda."),
     AGENDA_NO_EXISTENTE("Agenda no encontrada"),
+    AGENDA_LIST_NO_EXISTENTE("No se encontraron agendas en el rango de fechas indicado."),
     CITAS_NO_EXISTENTE("No se encontraron citas en el rango de fechas indicado."),
-    ENTIDAD_NO_EXISTENTE("Entidad no encontrada");
+    ENTIDAD_NO_EXISTENTE("Entidad no encontrada"),
+    ACCESO_DENEGADO("Acceso denegado: su rol no permite realizar esta operación.");
     private final String msg;
 }

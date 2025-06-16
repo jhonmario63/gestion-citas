@@ -31,7 +31,6 @@ public class CitasService implements ICitasService {
     public void registrarCita(CitasRequestDto citasRequestDto) throws CustomException {
         try {
             Long idAgenda = citasRequestDto.getAgenda().getIdAgenda();
-            // Validación de existencia de la agenda
             if (idAgenda == null || !iAgendaRepository.existsById(idAgenda)) {
                 throw new CustomException(MensajesEnum.AGENDA_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
             }

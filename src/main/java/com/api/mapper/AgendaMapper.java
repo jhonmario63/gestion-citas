@@ -15,12 +15,22 @@ public class AgendaMapper {
     public AgendaResponseDto toDto(AgendaEntity entity) {
         return AgendaResponseDto.builder()
                 .idAgenda(entity.getIdAgenda())
-                .fecha(entity.getFecha())
-                .tipoCita(entity.getTipoCita())
+                .fechaAgenda(entity.getFechaAgenda())
+                .tipoAgenda(entity.getTipoAgenda())
                 .fechaRegistro(entity.getFechaRegistro())
                 .usuario(usuarioMapper.toDto(entity.getUsuario()))
                 .entidad(entidadesMapper.toDto(entity.getEntidad()))
                 .build();
     }
+
+    public AgendaResponseDto noUserEntidadtoDto(AgendaEntity entity) {
+        return AgendaResponseDto.builder()
+                .idAgenda(entity.getIdAgenda())
+                .fechaAgenda(entity.getFechaAgenda())
+                .tipoAgenda(entity.getTipoAgenda())
+                .fechaRegistro(entity.getFechaRegistro())
+                .build();
+    }
+
 
 }

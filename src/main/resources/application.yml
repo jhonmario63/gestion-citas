@@ -25,5 +25,6 @@ spring:
       restart:
         enabled: true
 server:
-  port: 8080
-  context-path: /gestion-citas
+  #port: 8080
+  servlet:
+    context-path: /gestion-citas

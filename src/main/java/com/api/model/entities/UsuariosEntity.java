@@ -11,21 +11,37 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "usuarios")
 public class UsuariosEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long idUsuario;
+
+    @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "tipo_documento")
     private String tipoDocumento;
+
+    @Column(name = "num_documento", nullable = false, unique = true)
     private String numDocumento;
-    @Column(nullable = false, unique = true)
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "telefono")
     private String telefono;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<AgendaEntity> agendas;
-    @Column(updatable = false)
+
+    @Column(name = "fecha_registro", updatable = false)
     private Timestamp fechaRegistro;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TipoUsuarioEnum tipoUsuario;

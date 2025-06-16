@@ -1,7 +1,9 @@
 package com.api.controllers;
 
+import com.api.config.security.annotation.PermitirRoles;
 import com.api.dto.request.CitasRequestDto;
 import com.api.dto.response.ApiResponseDto;
+import com.api.model.enums.TipoUsuarioEnum;
 import com.api.services.interfaces.ICitasService;
 import com.api.utils.exceptions.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,7 @@ public class CitasController extends BaseController {
 
     private final ICitasService iCitasService;
 
+    @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD})
     @Operation(summary = "Post registrar cita", description = "Método encargado de registrar cita.")
     @PostMapping(value = "/registra-cita", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseDto> registrarCita(@RequestBody CitasRequestDto citasRequestDto) throws CustomException {
