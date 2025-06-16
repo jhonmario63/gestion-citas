@@ -44,7 +44,8 @@ public class UsuariosController extends BaseController {
     @Operation(summary = "Put actualizar usuario", description = "Método encargado de actualizar usuario.")
     @PutMapping(value = "actualizar-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseDto> actualizarUsuario(@RequestBody UsuarioRequestDto usuarioRequestDto) throws CustomException {
-        this.iUsuariosService.actualizarUsuario(usuarioRequestDto);
+        AuthenticatedUser user = usuarioContextHolder.getUsuario();
+        this.iUsuariosService.actualizarUsuario(usuarioRequestDto, user);
         return createSuccessResponse("Actualización exitosa.");
     }
 

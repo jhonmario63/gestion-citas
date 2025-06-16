@@ -33,7 +33,7 @@ public class UsuariosService implements IUsuariosService {
     @Override
     public void registrarUsuario(UsuarioRequestDto usuarioRequestDto, AuthenticatedUser user) throws CustomException {
         try {
-            //Evitar que el tipo USER pueda crear usuarios ADMIN, ENTIDAD
+            //Evitar que el tipo USER pueda crear o actualizar usuarios ADMIN, ENTIDAD
             this.validarPermisoCreacion(user.getTipoUsuario(), usuarioRequestDto.getTipoUsuario());
             if (iUsuariosRepository.existsByEmail(usuarioRequestDto.getEmail())) {
                 throw new CustomException(MensajesEnum.USUARIO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
@@ -61,8 +61,10 @@ public class UsuariosService implements IUsuariosService {
     }
 
     @Override
-    public void actualizarUsuario(UsuarioRequestDto usuarioRequestDto) throws CustomException {
+    public void actualizarUsuario(UsuarioRequestDto usuarioRequestDto, AuthenticatedUser user) throws CustomException {
         try {
+            //Evitar que el tipo USER pueda crear o actualizar usuarios ADMIN, ENTIDAD
+            this.validarPermisoCreacion(user.getTipoUsuario(), usuarioRequestDto.getTipoUsuario());
             UsuariosEntity usuariosEntity = iUsuariosRepository.findById(usuarioRequestDto.getIdUsuario())
                     .orElseThrow(() -> new CustomException(MensajesEnum.USUARIO_NO_EXISTENTE.getMsg(), HttpStatus.NOT_FOUND));
             if (!usuariosEntity.getEmail().equals(usuarioRequestDto.getEmail())

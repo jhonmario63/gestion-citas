@@ -9,7 +9,7 @@ import com.api.utils.exceptions.CustomException;
 public interface IUsuariosService {
     void registrarUsuario(UsuarioRequestDto usuarioRequestDto, AuthenticatedUser user) throws CustomException;
 
-    void actualizarUsuario(UsuarioRequestDto usuarioRequestDto) throws CustomException;
+    void actualizarUsuario(UsuarioRequestDto usuarioRequestDto, AuthenticatedUser user) throws CustomException;
 
     UsuarioResponseDto login(LoginRequestDto loginRequestDto) throws CustomException;
 }
