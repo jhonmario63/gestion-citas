@@ -1,6 +1,7 @@
 package com.api.services.service;
 
 import com.api.config.security.JwtUtil;
+import com.api.dto.AuthenticatedUser;
 import com.api.dto.request.LoginRequestDto;
 import com.api.dto.request.UsuarioRequestDto;
 import com.api.dto.response.UsuarioResponseDto;
@@ -18,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -32,14 +31,16 @@ public class UsuariosService implements IUsuariosService {
     private final UsuarioMapper usuarioMapper;
 
     @Override
-    public void registrarUsuario(UsuarioRequestDto usuarioRequestDto) throws CustomException {
-        if (iUsuariosRepository.existsByEmail(usuarioRequestDto.getEmail())) {
-            throw new CustomException(MensajesEnum.USUARIO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
-        }
-        if (iUsuariosRepository.existsByNumDocumento(usuarioRequestDto.getNumDocumento())) {
-            throw new CustomException(MensajesEnum.DOCUMENTO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
-        }
+    public void registrarUsuario(UsuarioRequestDto usuarioRequestDto, AuthenticatedUser user) throws CustomException {
         try {
+            //Evitar que el tipo USER pueda crear usuarios ADMIN, ENTIDAD
+            this.validarPermisoCreacion(user.getTipoUsuario(), usuarioRequestDto.getTipoUsuario());
+            if (iUsuariosRepository.existsByEmail(usuarioRequestDto.getEmail())) {
+                throw new CustomException(MensajesEnum.USUARIO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
+            }
+            if (iUsuariosRepository.existsByNumDocumento(usuarioRequestDto.getNumDocumento())) {
+                throw new CustomException(MensajesEnum.DOCUMENTO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
+            }
             UsuariosEntity usuariosEntity = new UsuariosEntity();
             usuariosEntity.setNombre(usuarioRequestDto.getNombre());
             usuariosEntity.setTipoDocumento(usuarioRequestDto.getTipoDocumento());
@@ -102,4 +103,14 @@ public class UsuariosService implements IUsuariosService {
         }
     }
 
+    private void validarPermisoCreacion(TipoUsuarioEnum creador, TipoUsuarioEnum tipoSolicitado) throws CustomException {
+        // ADMIN puede crear todos
+        if (creador == TipoUsuarioEnum.ADMIN) return;
+        // ENTIDAD puede crear USER y FUNCIONARIO
+        if (creador == TipoUsuarioEnum.ENTIDAD && (tipoSolicitado == TipoUsuarioEnum.USER || tipoSolicitado == TipoUsuarioEnum.FUNCIONARIO))
+            return;
+        // USER solo puede crear USER
+        if (creador == TipoUsuarioEnum.USER && tipoSolicitado == TipoUsuarioEnum.USER) return;
+        throw new CustomException(MensajesEnum.USUARIO_ERROR_PERMISO.getMsg() + tipoSolicitado, HttpStatus.FORBIDDEN);
+    }
 }

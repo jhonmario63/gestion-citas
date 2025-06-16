@@ -1,5 +1,7 @@
 package com.api.controllers;
 
+import com.api.config.UsuarioContextHolder;
+import com.api.dto.AuthenticatedUser;
 import com.api.dto.request.LoginRequestDto;
 import com.api.dto.request.UsuarioRequestDto;
 import com.api.dto.response.ApiResponseDto;
@@ -22,6 +24,7 @@ import java.sql.Timestamp;
 public class UsuariosController extends BaseController {
 
     private final IUsuariosService iUsuariosService;
+    private final UsuarioContextHolder usuarioContextHolder;
 
     @Operation(summary = "Post login", description = "Método encargado de iniciar sesion.")
     @PostMapping("/login")
@@ -33,7 +36,8 @@ public class UsuariosController extends BaseController {
     @Operation(summary = "Post registrar usuario", description = "Método encargado de crear usuario.")
     @PostMapping(value = "registrar-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseDto> registrarUsuario(@RequestBody UsuarioRequestDto usuarioRequestDto) throws CustomException {
-        this.iUsuariosService.registrarUsuario(usuarioRequestDto);
+        AuthenticatedUser user = usuarioContextHolder.getUsuario();
+        this.iUsuariosService.registrarUsuario(usuarioRequestDto, user);
         return createSuccessResponse("Registro exitoso.");
     }
 

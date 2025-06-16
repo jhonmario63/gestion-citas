@@ -9,5 +9,6 @@ import lombok.RequiredArgsConstructor;
 public enum TipoUsuarioEnum {
     ADMIN,
     ENTIDAD,
-    USER
+    USER,
+    FUNCIONARIO
 }

@@ -12,6 +12,7 @@ public enum MensajesEnum {
     USUARIO_INCORRECTO("Usuario y contraseña incorrecto."),
     ERROR_LOGIN("Usuario y contraseña incorrecto."),
     USUARIO_NO_EXISTENTE("Usuario no encontrado."),
+    USUARIO_ERROR_PERMISO("No tiene permisos para crear usuarios de tipo: "),
     ERROR_REGISTRO_USUARIO("Error al registrar el usuario."),
     ERROR_ACTUALIZAR_USUARIO("Error al actualizar el usuario."),
     CORREO_EXISTENTE("El correo electrónico ya está en uso."),
