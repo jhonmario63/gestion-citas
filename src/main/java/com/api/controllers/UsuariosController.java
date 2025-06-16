@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 @RequiredArgsConstructor
 @Tag(name = "Usuarios", description = "Controller encargado de los método para usuarios")
 public class UsuariosController extends BaseController {

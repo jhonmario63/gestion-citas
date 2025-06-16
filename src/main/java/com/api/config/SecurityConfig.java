@@ -31,12 +31,14 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/usuario/login",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
+                                "/swagger-resources/**",
                                 "/webjars/**",
-                                "/swagger-resources/**"
+                                "/configuration/**",
+                                "/usuarios/registro",
+                                "/usuarios/login"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
