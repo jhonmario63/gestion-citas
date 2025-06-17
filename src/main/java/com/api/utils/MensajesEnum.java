@@ -24,6 +24,7 @@ public enum MensajesEnum {
     CITAS_NO_EXISTENTE("No se encontraron citas en el rango de fechas indicado."),
     ENTIDAD_NO_EXISTENTE("Entidad no encontrada"),
     ENTIDAD_EXISTENTE("La entidad ya existente."),
-    ACCESO_DENEGADO("Acceso denegado: su rol no permite realizar esta operación.");
+    ACCESO_DENEGADO("Acceso denegado: su rol no permite realizar esta operación."),
+    AGENDA_EXISTENTE("Agenda ya existente."),;
     private final String msg;
 }

@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @CrossOrigin
@@ -39,7 +40,7 @@ public class AgendaController extends BaseController {
     @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD})
     @Operation(summary = "Get listar agendas fecha", description = "Metodo encargado de listar agendas por fecha.")
     @GetMapping(value = "/listar-agenda", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponseDto> listarAgendas(@RequestParam Timestamp fechaInicial, @RequestParam Timestamp fechaFinal) throws CustomException {
+    public ResponseEntity<ApiResponseDto> listarAgendas(@RequestParam Date fechaInicial, @RequestParam Date fechaFinal) throws CustomException {
         AuthenticatedUser user = usuarioContextHolder.getUsuario();
         var response = iAgendaService.listarAgendas(fechaInicial, fechaFinal, user);
         return createSuccessResponse(response);

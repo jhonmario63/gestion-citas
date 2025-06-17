@@ -15,5 +15,4 @@ public class AgendaRequestDto {
     private EntidadRequestDto entidad;
     private TipoAgendaEnum tipoAgenda;
     private Date fechaAgenda;
-    private String tipoCita;
 }

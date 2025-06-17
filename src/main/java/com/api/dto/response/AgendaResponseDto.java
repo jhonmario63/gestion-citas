@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 public class AgendaResponseDto {
     private Long idAgenda;
     private String nombreAgenda;
-    private UsuarioResponseDto usuario;
-    private EntidadResponseDto entidad;
     private Date fechaAgenda;
     private TipoAgendaEnum tipoAgenda;
     private Timestamp fechaRegistro;

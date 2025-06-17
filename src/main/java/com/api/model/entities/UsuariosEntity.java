@@ -46,4 +46,7 @@ public class UsuariosEntity implements Serializable {
     @Column(nullable = false)
     private TipoUsuarioEnum tipoUsuario;
 
+
+
+
 }

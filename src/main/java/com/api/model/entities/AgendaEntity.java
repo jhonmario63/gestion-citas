@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "agenda")
+@Table(name = "agenda", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre_agenda", "fecha_agenda", "tipo_agenda"}))
 public class AgendaEntity {
 
     @Id
@@ -35,9 +35,6 @@ public class AgendaEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_agenda", nullable = false)
     private TipoAgendaEnum tipoAgenda;
-
-    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
-    private List<CitasEntity> citas;
 
     @Column(name = "fecha_registro")
     private Timestamp fechaRegistro;

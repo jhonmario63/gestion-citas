@@ -1,12 +1,14 @@
 package com.api.repositories;
 
 import com.api.model.entities.AgendaEntity;
-import com.api.model.entities.CitasEntity;
+import com.api.model.enums.TipoAgendaEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.List;
 
 public interface IAgendaRepository extends JpaRepository<AgendaEntity, Long> {
-    List<AgendaEntity> findByFechaAgendaBetween(Timestamp fechaInicial, Timestamp fechaFinal);
+    List<AgendaEntity> findByFechaAgendaBetween(Date fechaInicial, Date fechaFinal);
+
+    boolean existsByNombreAgendaAndFechaAgendaAndTipoAgenda(String nombreAgenda, Date fechaAgenda, TipoAgendaEnum tipoAgenda);
 }

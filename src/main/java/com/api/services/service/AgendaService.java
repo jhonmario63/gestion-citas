@@ -5,18 +5,21 @@ import com.api.dto.request.AgendaRequestDto;
 import com.api.dto.response.AgendaResponseDto;
 import com.api.mapper.AgendaMapper;
 import com.api.model.entities.AgendaEntity;
-import com.api.model.enums.TipoUsuarioEnum;
+import com.api.model.entities.EntidadesEntity;
+import com.api.model.entities.UsuariosEntity;
 import com.api.repositories.IAgendaRepository;
 import com.api.repositories.IEntidadesRepository;
 import com.api.repositories.IUsuariosRepository;
 import com.api.services.interfaces.IAgendaService;
 import com.api.utils.MensajesEnum;
 import com.api.utils.exceptions.CustomException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,19 +34,27 @@ public class AgendaService implements IAgendaService {
     private final IEntidadesRepository iEntidadesRepository;
     private final AgendaMapper agendaMapper;
 
+    @Transactional
     @Override
     public void registrarAgenda(AgendaRequestDto agendaRequestDto, AuthenticatedUser user) throws CustomException {
         try {
-            Long idUsuario = user.getIdUsuario();
-            Long idEntidad = agendaRequestDto.getEntidad().getIdEntidad();
-            if (idEntidad == null || !iEntidadesRepository.existsById(idEntidad)) {
-                throw new CustomException(MensajesEnum.ENTIDAD_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
+            if (iAgendaRepository.existsByNombreAgendaAndFechaAgendaAndTipoAgenda(
+                    agendaRequestDto.getNombreAgenda(),
+                    agendaRequestDto.getFechaAgenda(),
+                    agendaRequestDto.getTipoAgenda())) {
+                throw new CustomException(MensajesEnum.AGENDA_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
             }
+            UsuariosEntity usuario = iUsuariosRepository.findById(user.getIdUsuario())
+                    .orElseThrow(() -> new CustomException(MensajesEnum.USUARIO_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
+            EntidadesEntity entidad = iEntidadesRepository.findById(agendaRequestDto.getEntidad().getIdEntidad())
+                    .orElseThrow(() -> new CustomException(MensajesEnum.ENTIDAD_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
             AgendaEntity agendaEntity = new AgendaEntity();
+            agendaEntity.setNombreAgenda(agendaRequestDto.getNombreAgenda());
+            agendaEntity.setEntidad(entidad);
+            agendaEntity.setTipoAgenda(agendaRequestDto.getTipoAgenda());
             agendaEntity.setFechaAgenda(agendaRequestDto.getFechaAgenda());
             agendaEntity.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
-            agendaEntity.setUsuario(iUsuariosRepository.getReferenceById(idUsuario));
-            agendaEntity.setEntidad(iEntidadesRepository.getReferenceById(idEntidad));
+            agendaEntity.setUsuario(usuario);
             iAgendaRepository.save(agendaEntity);
         } catch (CustomException e) {
             throw e;
@@ -53,15 +64,16 @@ public class AgendaService implements IAgendaService {
         }
     }
 
+    @Transactional
     @Override
-    public List<AgendaResponseDto> listarAgendas(Timestamp fechaInicial, Timestamp fechaFinal, AuthenticatedUser user) throws CustomException {
+    public List<AgendaResponseDto> listarAgendas(Date fechaInicial, Date fechaFinal, AuthenticatedUser user) throws CustomException {
         try {
             List<AgendaEntity> agenda = iAgendaRepository.findByFechaAgendaBetween(fechaInicial, fechaFinal);
             if (agenda.isEmpty()) {
                 throw new CustomException(MensajesEnum.AGENDA_LIST_NO_EXISTENTE.getMsg(), HttpStatus.NOT_FOUND);
             }
             return agenda.stream()
-                    .map(agendaMapper::noUserEntidadtoDto)
+                    .map(agendaMapper::toDto)
                     .collect(Collectors.toList());
         } catch (CustomException e) {
             throw e;
