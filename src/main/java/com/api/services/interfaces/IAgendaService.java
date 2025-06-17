@@ -11,5 +11,5 @@ import java.util.List;
 public interface IAgendaService {
     void registrarAgenda(AgendaRequestDto agendaRequestDto, AuthenticatedUser user) throws CustomException;
 
-    List<AgendaResponseDto> listarAgendas(Date fechaInicial, Date fechaFinal, AuthenticatedUser user) throws CustomException;
+    List<AgendaResponseDto> listarAgendas(Date fecha, AuthenticatedUser user) throws CustomException;
 }

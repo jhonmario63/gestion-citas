@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
@@ -13,7 +14,6 @@ import java.sql.Timestamp;
 public class CitasRequestDto implements Serializable {
     private Long idCita;
     private AgendaResponseDto agenda;
-    private Timestamp fechaHora;
-    private String estado;
+    private Time hora;
     private Timestamp fechaRegistro;
 }

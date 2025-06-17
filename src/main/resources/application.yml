@@ -1,4 +1,15 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: notificacion.gpstecnology@gmail.com
+    password: bkvfgtlmvhmiogas
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   application:
     name: gestion-citas
   datasource:

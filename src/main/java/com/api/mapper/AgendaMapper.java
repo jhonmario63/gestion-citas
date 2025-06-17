@@ -9,12 +9,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AgendaMapper {
 
-    private final UsuarioMapper usuarioMapper;
-    private final EntidadesMapper entidadesMapper;
-
     public AgendaResponseDto toDto(AgendaEntity entity) {
         return AgendaResponseDto.builder()
                 .idAgenda(entity.getIdAgenda())
+                .nombreAgenda(entity.getNombreAgenda())
                 .fechaAgenda(entity.getFechaAgenda())
                 .tipoAgenda(entity.getTipoAgenda())
                 .fechaRegistro(entity.getFechaRegistro())

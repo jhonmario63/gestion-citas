@@ -1,6 +1,8 @@
 package com.api.controllers;
 
+import com.api.config.UsuarioContextHolder;
 import com.api.config.security.annotation.PermitirRoles;
+import com.api.dto.AuthenticatedUser;
 import com.api.dto.request.CitasRequestDto;
 import com.api.dto.response.ApiResponseDto;
 import com.api.model.enums.TipoUsuarioEnum;
@@ -13,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @CrossOrigin
 @RequiredArgsConstructor
@@ -23,13 +25,7 @@ import java.sql.Timestamp;
 public class CitasController extends BaseController {
 
     private final ICitasService iCitasService;
-
-    @Operation(summary = "Get listar cita por fecha", description = "Metodo encargado de listar cita por fecha.")
-    @GetMapping(value = "/listar-citas-fecha", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponseDto> listarCita(@RequestParam Timestamp fechaInicial, @RequestParam Timestamp fechaFinal) throws CustomException {
-        var response = iCitasService.listarCitas(fechaInicial, fechaFinal);
-        return createSuccessResponse(response);
-    }
+    private final UsuarioContextHolder usuarioContextHolder;
 
     @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD})
     @Operation(summary = "Post registrar cita", description = "Método encargado de registrar cita.")
@@ -38,5 +34,22 @@ public class CitasController extends BaseController {
         this.iCitasService.registrarCita(citasRequestDto);
         return createSuccessResponse("Registro exitoso.");
     }
+
+    @Operation(summary = "Get listar cita por fecha", description = "Metodo encargado de listar cita por fecha.")
+    @GetMapping(value = "/listar-citas-fecha", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponseDto> listarCita(@RequestParam Date fecha) throws CustomException {
+        var response = iCitasService.listarCitas(fecha);
+        return createSuccessResponse(response);
+    }
+
+    @PermitirRoles({TipoUsuarioEnum.USER})
+    @Operation(summary = "Get agendar una cita", description = "Método encargado de agendar cita para el usuario.")
+    @GetMapping(value = "/agendar-cita-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponseDto> agendarCitaUsuario(@RequestParam Long idCita) throws CustomException {
+        AuthenticatedUser user = usuarioContextHolder.getUsuario();
+        this.iCitasService.agendarCitaUsuario(idCita, user);
+        return createSuccessResponse("Registro exitoso.");
+    }
+
 
 }

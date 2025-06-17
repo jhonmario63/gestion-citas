@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.List;
 
 public interface IAgendaRepository extends JpaRepository<AgendaEntity, Long> {
-    List<AgendaEntity> findByFechaAgendaBetween(Date fechaInicial, Date fechaFinal);
+    List<AgendaEntity> findByFechaAgenda(Date fecha);
 
     boolean existsByNombreAgendaAndFechaAgendaAndTipoAgenda(String nombreAgenda, Date fechaAgenda, TipoAgendaEnum tipoAgenda);
 }

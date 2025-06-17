@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class AgendaResponseDto {
     private Long idAgenda;
     private String nombreAgenda;
-    private Date fechaAgenda;
     private TipoAgendaEnum tipoAgenda;
+    private Date fechaAgenda;
     private Timestamp fechaRegistro;
 }

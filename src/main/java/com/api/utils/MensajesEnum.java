@@ -20,11 +20,14 @@ public enum MensajesEnum {
     ERROR_REGISTRO_ENTIDAD("Error al registrar la entidad."),
     ERROR_REGISTRO_AGENDA("Error al registrar la agenda."),
     AGENDA_NO_EXISTENTE("Agenda no encontrada"),
+    CITA_NO_EXISTENTE("Cita no encontrada"),
     AGENDA_LIST_NO_EXISTENTE("No se encontraron agendas en el rango de fechas indicado."),
-    CITAS_NO_EXISTENTE("No se encontraron citas en el rango de fechas indicado."),
+    CITAS_NO_EXISTENTE("No se encontraron citas en la fechas indicada."),
     ENTIDAD_NO_EXISTENTE("Entidad no encontrada"),
     ENTIDAD_EXISTENTE("La entidad ya existente."),
     ACCESO_DENEGADO("Acceso denegado: su rol no permite realizar esta operación."),
-    AGENDA_EXISTENTE("Agenda ya existente."),;
+    AGENDA_EXISTENTE("Agenda ya existente."),
+    ASUNTO_EMAIL("GestionCitas te confirmar la cita.");
+    ;
     private final String msg;
 }

@@ -40,9 +40,9 @@ public class AgendaController extends BaseController {
     @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD})
     @Operation(summary = "Get listar agendas fecha", description = "Metodo encargado de listar agendas por fecha.")
     @GetMapping(value = "/listar-agenda", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponseDto> listarAgendas(@RequestParam Date fechaInicial, @RequestParam Date fechaFinal) throws CustomException {
+    public ResponseEntity<ApiResponseDto> listarAgendas(@RequestParam Date fecha) throws CustomException {
         AuthenticatedUser user = usuarioContextHolder.getUsuario();
-        var response = iAgendaService.listarAgendas(fechaInicial, fechaFinal, user);
+        var response = iAgendaService.listarAgendas(fecha, user);
         return createSuccessResponse(response);
     }
 

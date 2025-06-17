@@ -66,9 +66,9 @@ public class AgendaService implements IAgendaService {
 
     @Transactional
     @Override
-    public List<AgendaResponseDto> listarAgendas(Date fechaInicial, Date fechaFinal, AuthenticatedUser user) throws CustomException {
+    public List<AgendaResponseDto> listarAgendas(Date fecha, AuthenticatedUser user) throws CustomException {
         try {
-            List<AgendaEntity> agenda = iAgendaRepository.findByFechaAgendaBetween(fechaInicial, fechaFinal);
+            List<AgendaEntity> agenda = iAgendaRepository.findByFechaAgenda(fecha);
             if (agenda.isEmpty()) {
                 throw new CustomException(MensajesEnum.AGENDA_LIST_NO_EXISTENTE.getMsg(), HttpStatus.NOT_FOUND);
             }

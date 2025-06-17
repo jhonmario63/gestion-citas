@@ -1,9 +1,10 @@
 package com.api.model.entities;
 
-import com.api.model.entities.AgendaEntity;
+import com.api.model.enums.EstadoCitaEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
@@ -20,11 +21,11 @@ public class CitasEntity {
     @JoinColumn(name = "agenda_id")
     private AgendaEntity agenda;
 
-    @Column(name = "fecha_hora")
-    private Timestamp fechaHora;
+    @Column(name = "hora")
+    private Time hora;
 
     @Column(name = "estado")
-    private String estado;
+    private EstadoCitaEnum estado;
 
     @Column(name = "fecha_registro")
     private Timestamp fechaRegistro;
