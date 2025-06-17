@@ -1,10 +1,12 @@
 package com.api.controllers;
 
 import com.api.config.UsuarioContextHolder;
+import com.api.config.security.annotation.PermitirRoles;
 import com.api.dto.AuthenticatedUser;
 import com.api.dto.request.LoginRequestDto;
 import com.api.dto.request.UsuarioRequestDto;
 import com.api.dto.response.ApiResponseDto;
+import com.api.model.enums.TipoUsuarioEnum;
 import com.api.services.interfaces.IUsuariosService;
 import com.api.utils.exceptions.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +35,8 @@ public class UsuariosController extends BaseController {
         return createSuccessResponse(response);
     }
 
+
+    @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD, TipoUsuarioEnum.FUNCIONARIO})
     @Operation(summary = "Post registrar usuario", description = "Método encargado de crear usuario.")
     @PostMapping(value = "registrar-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseDto> registrarUsuario(@RequestBody UsuarioRequestDto usuarioRequestDto) throws CustomException {
@@ -41,6 +45,7 @@ public class UsuariosController extends BaseController {
         return createSuccessResponse("Registro exitoso.");
     }
 
+    @PermitirRoles({TipoUsuarioEnum.ADMIN, TipoUsuarioEnum.ENTIDAD, TipoUsuarioEnum.USER, TipoUsuarioEnum.FUNCIONARIO})
     @Operation(summary = "Put actualizar usuario", description = "Método encargado de actualizar usuario.")
     @PutMapping(value = "actualizar-usuario", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponseDto> actualizarUsuario(@RequestBody UsuarioRequestDto usuarioRequestDto) throws CustomException {

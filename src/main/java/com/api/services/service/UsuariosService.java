@@ -54,6 +54,8 @@ public class UsuariosService implements IUsuariosService {
             if (save.getIdUsuario() == null) {
                 throw new CustomException(MensajesEnum.ERROR_REGISTRO_USUARIO.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        } catch (CustomException ex) {
+            throw ex;
         } catch (Exception e) {
             log.error(MensajesEnum.ERROR_SERVIDOR + e.getMessage(), this.getClass().getName());
             throw new CustomException(MensajesEnum.ERROR_REGISTRO_USUARIO.getMsg(), HttpStatus.INTERNAL_SERVER_ERROR);

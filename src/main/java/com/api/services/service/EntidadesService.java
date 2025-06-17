@@ -32,7 +32,7 @@ public class EntidadesService implements IEntidadesService {
     public void registrarEntidad(EntidadRequestDto entidadRequestDto, AuthenticatedUser user) throws CustomException {
         try {
             if (iEntidadesRepository.existsByNitEntidad(entidadRequestDto.getNitEntidad())) {
-                throw new CustomException(MensajesEnum.USUARIO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
+                throw new CustomException(MensajesEnum.ENTIDAD_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST);
             }
             EntidadesEntity entidadesEntity = new EntidadesEntity();
             entidadesEntity.setNitEntidad(entidadRequestDto.getNitEntidad());
