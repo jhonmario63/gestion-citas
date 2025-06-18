@@ -9,6 +9,7 @@ import com.api.model.entities.CitasEntity;
 import com.api.model.entities.CitasUsuariosEntity;
 import com.api.model.entities.UsuariosEntity;
 import com.api.model.enums.EstadoCitaEnum;
+import com.api.model.enums.TipoAgendaEnum;
 import com.api.repositories.IAgendaRepository;
 import com.api.repositories.ICitasRepository;
 import com.api.repositories.ICitasUsuariosRepository;
@@ -44,8 +45,7 @@ public class CitasService implements ICitasService {
     @Override
     public void registrarCita(CitasRequestDto citasRequestDto) throws CustomException {
         try {
-            AgendaEntity agendaEntity = iAgendaRepository.findById(citasRequestDto.getAgenda().getIdAgenda())
-                    .orElseThrow(() -> new CustomException(MensajesEnum.AGENDA_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
+            AgendaEntity agendaEntity = iAgendaRepository.findById(citasRequestDto.getAgenda().getIdAgenda()).orElseThrow(() -> new CustomException(MensajesEnum.AGENDA_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
             CitasEntity citasEntity = new CitasEntity();
             citasEntity.setAgenda(agendaEntity);
             citasEntity.setHora(citasRequestDto.getHora());
@@ -70,9 +70,7 @@ public class CitasService implements ICitasService {
             if (citasEntities.isEmpty()) {
                 throw new CustomException(MensajesEnum.CITAS_NO_EXISTENTE.getMsg(), HttpStatus.NOT_FOUND);
             }
-            return citasEntities.stream()
-                    .map(citasMapper::toDto)
-                    .collect(Collectors.toList());
+            return citasEntities.stream().map(citasMapper::toDto).collect(Collectors.toList());
         } catch (CustomException e) {
             throw e;
         } catch (Exception ex) {
@@ -91,9 +89,14 @@ public class CitasService implements ICitasService {
             citaUsuariosEntity.setUsuarios(usuariosEntity);
             citaUsuariosEntity.setCita(citasEntity);
             citaUsuariosEntity.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
+            if (TipoAgendaEnum.VIRTUAL.equals(citaUsuariosEntity.getCita().getAgenda().getTipoAgenda())) {
+                String nombreAgenda = citaUsuariosEntity.getCita().getAgenda().getNombreAgenda();
+                String nombreReunion = "GestionCitas-" + nombreAgenda.trim().replaceAll("\\s+", "") + "-" + System.currentTimeMillis();
+                citaUsuariosEntity.setIdReunion(nombreReunion);
+            }
             iCitasUsuariosRepository.save(citaUsuariosEntity);
             this.cambiarEstadoCita(citasEntity, EstadoCitaEnum.AGENDADA);
-            String html = util.generarHtmlCita(usuariosEntity.getNombre(), citasEntity.getAgenda().getFechaAgenda().toString(), citasEntity.getHora().toString());
+            String html = util.generarHtmlCita(usuariosEntity.getNombre(), citasEntity.getAgenda().getFechaAgenda().toString(), citasEntity.getHora().toString(), citasEntity.getAgenda().getTipoAgenda(), "");
             emailService.enviarCorreoConfirmacionCita(usuariosEntity.getEmail(), MensajesEnum.ASUNTO_EMAIL.getMsg(), html);
         } catch (CustomException e) {
             throw e;
@@ -109,13 +112,11 @@ public class CitasService implements ICitasService {
     }
 
     private CitasEntity obtenerCitaEntity(Long idCita) throws CustomException {
-        return iCitasRepository.findById(idCita)
-                .orElseThrow(() -> new CustomException(MensajesEnum.CITA_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
+        return iCitasRepository.findById(idCita).orElseThrow(() -> new CustomException(MensajesEnum.CITA_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
     }
 
     private UsuariosEntity obtenerUsuarioEntity(Long idUsuario) throws CustomException {
-        return iUsuariosRepository.findById(idUsuario)
-                .orElseThrow(() -> new CustomException(MensajesEnum.USUARIO_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
+        return iUsuariosRepository.findById(idUsuario).orElseThrow(() -> new CustomException(MensajesEnum.USUARIO_NO_EXISTENTE.getMsg(), HttpStatus.BAD_REQUEST));
     }
 
 }

@@ -24,6 +24,9 @@ public class CitasUsuariosEntity implements Serializable {
     @JoinColumn(name = "usuario_id")
     private UsuariosEntity usuarios;
 
+    @Column(name = "id_reunion")
+    private String idReunion;
+
     @Column(name = "fecha_registro")
     private Timestamp fechaRegistro;
 
